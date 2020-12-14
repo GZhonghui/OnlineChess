@@ -77,7 +77,7 @@ class RecvThread(threading.Thread):
                     recv_move_y=self.server.recv(2)
                     move_y=int.from_bytes(recv_move_y,byteorder='big',signed=False)
 
-                    chess_board.window.title('(%d,%d)'%(move_x,move_y))
+                    chess_board.place_chees(0,(move_x,move_y))
         except:
             pass
 

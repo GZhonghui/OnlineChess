@@ -62,11 +62,28 @@ class RecvThread(threading.Thread):
                 recv_type=int.from_bytes(recv_type,byteorder='big',signed=False)
 
                 if recv_type==3:
+                    player_order=self.server.recv(1)
+                    player_order=int.from_bytes(player_order,byteorder='big',signed=False)
+
+                    self.father.player_order=player_order
+                    chess_board.player_order=player_order
+
                     recv_len=self.server.recv(1)
                     recv_len=int.from_bytes(recv_len,byteorder='big',signed=False)
 
                     recv_message=self.server.recv(recv_len)
                     self.player_name=recv_message.decode('utf-8')
+
+                    chess_board.another_name=self.player_name
+
+                    print('You matched',self.player_name)
+
+                    if player_order:
+                        chess_board.set_waiting(False)
+                        print('You play first(White)')
+                    else:
+                        chess_board.set_waiting(True)
+                        print('You play second(Black)')
 
                     self.father.ready()
 
@@ -77,7 +94,10 @@ class RecvThread(threading.Thread):
                     recv_move_y=self.server.recv(2)
                     move_y=int.from_bytes(recv_move_y,byteorder='big',signed=False)
 
-                    chess_board.place_chees(0,(move_x,move_y))
+                    chess_board.place_chees(1-self.father.player_order,(move_x,move_y))
+                    chess_board.set_waiting(False)
+
+                    chess_board.window_name('Your Turn')
         except:
             pass
 
@@ -89,6 +109,8 @@ class ServerConnection():
         self.server=server
 
         self.allow_show=show_window
+
+        self.player_order=None
 
         self.send_thread=SendThread(self)
         self.recv_thread=RecvThread(self)

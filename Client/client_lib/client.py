@@ -16,7 +16,9 @@ class ClientHandle():
 
         self.network=network_thread.ServerConnection(self.server,self.show_window)
 
-        chess_board.init_board(self.network)
+        chess_board.network_manager=self.network
+
+        chess_board.init_board()
         chess_board.bind_event()
 
     def __del__(self):
@@ -26,23 +28,26 @@ class ClientHandle():
         print('Input your name:',end='')
         self.name=input()
 
-        chess_board.window_name(self.name)
+        chess_board.my_name=self.name
 
         print('Connecting to server')
         self.server.connect((self.ip,self.port))
         print('Connected to server')
 
+        print('Waiting for another player')
+
         self.network.run()
 
         self.network.send_name(self.name)
 
-        print('Waiting for another player')
-
         self.show_window.acquire()
 
-        print('Found player:',self.network.recv_thread.player_name)
-
         chess_board.clear_board()
+
+        if chess_board.player_order:
+            chess_board.window_name('Your Turn')
+        else:
+            chess_board.window_name('Waiting for Another')
 
         chess_board.main_loop()
 

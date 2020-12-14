@@ -42,7 +42,7 @@ class SendThread(threading.Thread):
                     send_len=len(another)
                     send_len=send_len.to_bytes(1,byteorder='big',signed=False)
 
-                    send_all=send_type+send_len+another
+                    send_all=send_type+message.message+send_len+another
 
                     self.tcp_connection.sendall(send_all)
 
@@ -155,10 +155,10 @@ class ClientConnection():
 
         return res_name
 
-    def notify_matched(self,id):
+    def notify_matched(self,order:int,id:int):
         self.another=id
 
-        self.send_message(mp.TCP_Message(6,None))
+        self.send_message(mp.TCP_Message(6,order.to_bytes(1,byteorder='big',signed=False)))
 
     def send_message(self,message:mp.TCP_Message):
         self.tcp_message_pool.send_message(message)

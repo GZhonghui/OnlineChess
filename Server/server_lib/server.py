@@ -121,8 +121,8 @@ class ServerHandle():
 
                     self.clients_lock.acquire()
 
-                    self.clients[next_id].notify_matched(self.waiting_queue[0])
-                    self.clients[self.waiting_queue[0]].notify_matched(next_id)
+                    self.clients[next_id].notify_matched(0,self.waiting_queue[0])
+                    self.clients[self.waiting_queue[0]].notify_matched(1,next_id)
 
                     self.clients_lock.release()
 

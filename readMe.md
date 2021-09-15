@@ -7,8 +7,11 @@
 
 ## Layout
 
-![Server](readMe/Layout_Server.png)
-![Client](readMe/Layout_Client.png)
+### Server
+![Server](readMe/Layout_Server.PNG)
+
+### Client
+![Client](readMe/Layout_Client.PNG)
 
 ## Running
 ![Chess](readMe/Run.png)

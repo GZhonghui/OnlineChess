@@ -3,4 +3,12 @@
 > [多人游戏服务器的设计](readMe/Chess.pdf)
 ---
 
+> This is my Final Project of Course *Modern communication network technology*
+
+## Layout
+
+![Server](readMe/Layout_Server.png)
+![Client](readMe/Layout_Client.png)
+
+## Running
 ![Chess](readMe/Run.png)
